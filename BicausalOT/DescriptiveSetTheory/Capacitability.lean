@@ -443,12 +443,12 @@ theorem MeasureTheory.AnalyticSet.nullMeasurableSet
   -- measurable hull H ⊇ A; then A \ B ⊆ H \ B is null
   obtain ⟨H, hAH, hHmeas, hHeq⟩ := exists_measurable_superset μ A
   have hnull : μ (H \ ⋃ k, K k) = 0 := by
-    rw [measure_diff (hBsub.trans hAH) hBmeas.nullMeasurableSet
+    rw [measure_sdiff (hBsub.trans hAH) hBmeas.nullMeasurableSet
       (measure_ne_top μ _), hHeq, hBeq]
     exact tsub_self _
   have hABnull : μ (A \ ⋃ k, K k) = 0 :=
-    measure_mono_null (diff_subset_diff_left hAH) hnull
-  rw [← union_diff_cancel hBsub]
+    measure_mono_null (sdiff_subset_sdiff_left hAH) hnull
+  rw [← union_sdiff_cancel hBsub]
   exact hBmeas.nullMeasurableSet.union (NullMeasurableSet.of_null hABnull)
 
 /-! ## Part VII: Parametrized capacitability — the kernel key lemma -/
@@ -524,7 +524,7 @@ theorem cap_measurable_layer
           ({x | q < κ x (Prod.mk x ⁻¹' capW π (capPad n b) n)} ×ˢ
            {β : ℕ → ℕ | ∀ i : Fin n, β i = b i}) := by
     ext ⟨x, β⟩
-    simp only [mem_setOf_eq, mem_iUnion, mem_prod]
+    simp only [mem_ofPred_eq, mem_iUnion, mem_prod]
     constructor
     · intro hq
       refine ⟨fun i => β i, ?_, fun i => rfl⟩
@@ -568,7 +568,7 @@ theorem MeasureTheory.AnalyticSet.kernel_section_gt
             ∀ n, (Real.toNNReal q : ℝ≥0∞)
               < κ p.1 (Prod.mk p.1 ⁻¹' capW π p.2 n)} := by
     ext x
-    simp only [mem_setOf_eq, mem_iUnion, mem_image, Prod.exists]
+    simp only [mem_ofPred_eq, mem_iUnion, mem_image, Prod.exists]
     constructor
     · intro hc
       obtain ⟨q, _, hq1, hq2⟩ := ENNReal.lt_iff_exists_rat_btwn.mp hc

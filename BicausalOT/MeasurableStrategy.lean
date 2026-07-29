@@ -180,8 +180,10 @@ theorem bellman_value_eq_multi_measurable (T : ℕ)
           ≤ ∫⁻ h₀, (VGo c κμ κν T 0 h₀ + (T : ℝ≥0∞) * δ) ∂γ₀ :=
             lintegral_mono hbound
         _ = ∫⁻ h₀, VGo c κμ κν T 0 h₀ ∂γ₀ + (T : ℝ≥0∞) * δ := by
-            rw [lintegral_add_right _ measurable_const, lintegral_const,
-              hγ₀mass, mul_one]
+            have hsplit := lintegral_add_right (μ := γ₀)
+              (fun h₀ : X 0 × Y 0 => VGo c κμ κν T 0 h₀)
+              (g := fun _ : X 0 × Y 0 => (T : ℝ≥0∞) * δ) measurable_const
+            rw [hsplit, lintegral_const, hγ₀mass, mul_one]
         _ = ∫⁻ h₀, VGo c κμ κν T 0 h₀ ∂γ₀ + (ε : ℝ≥0∞) := by rw [hTδ]
   · -- lower bound: restricting the infimum can only increase it
     rw [← bellman_value_eq_multi κμ κν c T μ₀ ν₀ hκμ_prob hne]

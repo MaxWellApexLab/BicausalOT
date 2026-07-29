@@ -289,7 +289,7 @@ theorem argminSet_hit_eq (t : ℕ)
             (fun t y => (κνP t y : Measure (Y (t + 1)))) t} ∩ C).Nonempty}
         ∩ {h | stageMin κμP κνP t F C h ≤ stageMin κμP κνP t F univ h} := by
   ext h
-  simp only [Set.mem_setOf_eq, Set.mem_inter_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_inter_iff]
   constructor
   · rintro ⟨γ, ⟨hfib, hopt⟩, hγC⟩
     exact ⟨⟨γ, hfib, hγC⟩, le_trans (iInf₂_le γ ⟨hfib, hγC⟩) hopt⟩
@@ -344,7 +344,7 @@ theorem measurableSet_feasGraph_fiber_hit
             (γ : Measure ((X (t + 1)) × (Y (t + 1)))).map Prod.snd
               = (p.2 : Measure (Y (t + 1)))} := by
     ext h
-    simp only [Set.mem_setOf_eq, Set.mem_preimage]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage]
     constructor
     · rintro ⟨γ, hfib, hγC⟩
       exact ⟨γ, hγC, hfib.1, hfib.2⟩
@@ -369,7 +369,7 @@ theorem measurableSet_argminSet_hit
       = ⋃ n, {h | (argminSet κμP κνP t F h ∩ C n).Nonempty} := by
     rw [hUeq]
     ext h
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion]
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion]
     constructor
     · rintro ⟨γ, hγa, hγU⟩
       obtain ⟨n, hγn⟩ := Set.mem_iUnion.mp hγU

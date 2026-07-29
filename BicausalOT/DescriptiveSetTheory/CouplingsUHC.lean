@@ -207,7 +207,7 @@ theorem measurableSet_couplings_hit
         ∃ γ ∈ C n, (γ : Measure (A × B)).map Prod.fst = (p.1 : Measure A) ∧
           (γ : Measure (A × B)).map Prod.snd = (p.2 : Measure B)} := by
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion]
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion]
     constructor
     · rintro ⟨γ, ⟨n, hγn⟩, hmarg⟩
       exact ⟨n, γ, hγn, hmarg⟩

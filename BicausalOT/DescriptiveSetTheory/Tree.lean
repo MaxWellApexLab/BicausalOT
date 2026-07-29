@@ -123,7 +123,7 @@ theorem analyticSet_projFiberCylNG [PolishSpace X]
     AnalyticSet (projFiberCylNG F f n) := by
   have : projFiberCylNG F f n =
       Prod.fst '' (F ∩ (univ ×ˢ ⋂ (i : Fin n), { y : ℕ → ℕ | y i = f i })) := by
-    ext x; simp only [projFiberCylNG, fiberRestNG, mem_setOf_eq, mem_image, Prod.exists,
+    ext x; simp only [projFiberCylNG, fiberRestNG, mem_ofPred_eq, mem_image, Prod.exists,
       mem_inter_iff, mem_prod, mem_univ, true_and, mem_iInter]
     constructor
     · rintro ⟨y, h1, h2⟩; exact ⟨x, y, ⟨h1, fun ⟨i, hi⟩ => h2 i hi⟩, rfl⟩
@@ -156,8 +156,8 @@ theorem closedUniformizerG_cylinder_eq [PolishSpace X]
           (projFiberCylNG F (Function.update f m j) (↑m + 1))ᶜ) ∪
       ((Prod.fst '' F)ᶜ ∩ { _x | ∀ i < n, hne.some.2 i = f i }) := by
   ext x
-  simp only [mem_setOf_eq, mem_union, mem_inter_iff, mem_iInter, mem_compl_iff,
-    projFiberCylNG, fiberRestNG, mem_setOf_eq]
+  simp only [mem_ofPred_eq, mem_union, mem_inter_iff, mem_iInter, mem_compl_iff,
+    projFiberCylNG, fiberRestNG, mem_ofPred_eq]
   constructor
   · intro hx
     by_cases hcf : (closedFiberG F x).Nonempty
@@ -237,10 +237,10 @@ theorem closedUniformizerG_cylinder_measurable [PolishSpace X]
     · exact (hF.analyticSet.image_of_continuous continuous_fst).compl_mem_analyticMeasurableSpace
     · by_cases h : ∀ i < n, hne.some.2 i = f i
       · have : {x : X | ∀ i < n, hne.some.2 i = f i} = univ := by
-          ext; simp only [mem_setOf_eq, mem_univ, iff_true]; exact fun _ hh => h _ hh
+          ext; simp only [mem_ofPred_eq, mem_univ, iff_true]; exact fun _ hh => h _ hh
         rw [this]; exact @MeasurableSet.univ _ (analyticMeasurableSpace X)
       · have : {x : X | ∀ i < n, hne.some.2 i = f i} = ∅ := by
-          ext; simp only [mem_setOf_eq, mem_empty_iff_false, iff_false]
+          ext; simp only [mem_ofPred_eq, mem_empty_iff_false, iff_false]
           exact fun h' => h (fun i hi => h' i hi)
         rw [this]; exact @MeasurableSet.empty _ (analyticMeasurableSpace X)
 
@@ -259,7 +259,7 @@ theorem closedUniformizerG_analyticallyMeasurable [PolishSpace X]
     obtain ⟨f, n, rfl⟩ := hs
     have : closedUniformizerG F hF hne ⁻¹' PiNat.cylinder f n =
         {x | ∀ i < n, closedUniformizerG F hF hne x i = f i} := by
-      ext x; simp only [mem_preimage, PiNat.mem_cylinder_iff, mem_setOf_eq]
+      ext x; simp only [mem_preimage, PiNat.mem_cylinder_iff, mem_ofPred_eq]
     rw [this]; exact closedUniformizerG_cylinder_measurable hF hne f n
   | empty => exact @MeasurableSet.empty _ (analyticMeasurableSpace X)
   | compl _ _ ih => exact ih.compl

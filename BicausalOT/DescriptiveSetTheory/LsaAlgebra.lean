@@ -28,7 +28,7 @@ theorem IsLowerSemianalytic.add [T2Space X] {f g : X → ℝ≥0∞}
       = ⋃ q : ℚ, ({x | f x < (Real.toNNReal q : ℝ≥0∞)}
           ∩ {x | g x < c - (Real.toNNReal q : ℝ≥0∞)}) := by
     ext x
-    simp only [mem_setOf_eq, mem_iUnion, mem_inter_iff]
+    simp only [mem_ofPred_eq, mem_iUnion, mem_inter_iff]
     constructor
     · intro h
       obtain ⟨q, -, hq1, hq2⟩ := ENNReal.lt_iff_exists_rat_btwn.mp

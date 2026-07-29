@@ -55,7 +55,7 @@ theorem measurable_firstIdx {p : α → ℕ → Prop} (hex : ∀ a, ∃ n, p a n
       {a | p a k} ∩ ⋂ (j : ℕ) (_ : j < k), {a | p a j}ᶜ := by
     ext a
     simp only [mem_preimage, mem_singleton_iff, firstIdx_eq_iff, mem_inter_iff,
-      mem_setOf_eq, mem_iInter, mem_compl_iff]
+      mem_ofPred_eq, mem_iInter, mem_compl_iff]
   rw [hset]
   exact (hm k).inter
     (MeasurableSet.iInter fun j => MeasurableSet.iInter fun _ => (hm j).compl)
@@ -110,7 +110,7 @@ theorem step_measurableSet
   have hset : {a | (Φ a ∩ (ball (u k) r' ∩ ball (u (g a)) r)).Nonempty} =
       ⋃ j : ℕ, {a | g a = j} ∩ {a | (Φ a ∩ (ball (u k) r' ∩ ball (u j) r)).Nonempty} := by
     ext a
-    simp only [mem_iUnion, mem_inter_iff, mem_setOf_eq]
+    simp only [mem_iUnion, mem_inter_iff, mem_ofPred_eq]
     constructor
     · exact fun h => ⟨g a, rfl, h⟩
     · rintro ⟨j, rfl, h⟩

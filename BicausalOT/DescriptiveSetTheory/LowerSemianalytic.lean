@@ -41,7 +41,7 @@ theorem IsLowerSemianalytic.iInf_fiber
   intro c
   have h_sub : {x | ⨅ (y : Y) (_ : (x, y) ∈ D), f (x, y) < c} =
       Prod.fst '' (D ∩ {p | f p < c}) := by
-    ext x; simp only [mem_setOf_eq, mem_image, Prod.exists]
+    ext x; simp only [mem_ofPred_eq, mem_image, Prod.exists]
     constructor
     · intro hlt
       rw [iInf_lt_iff] at hlt

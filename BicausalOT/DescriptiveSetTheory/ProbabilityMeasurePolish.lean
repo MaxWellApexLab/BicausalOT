@@ -305,7 +305,7 @@ instance diracMix_isProbabilityMeasure (x₀ : Ω) {N : ℕ}
     have htop : (∑ i, (a i : ℝ≥0∞)) ≠ ∞ := by
       rw [← Nat.cast_sum]
       exact ENNReal.natCast_ne_top _
-    rw [Measure.smul_apply, Measure.coe_finset_sum, Finset.sum_apply]
+    rw [Measure.smul_apply, Measure.coe_finsetSum, Finset.sum_apply]
     simp only [Measure.smul_apply, smul_eq_mul]
     rw [show (∑ i, (a i : ℝ≥0∞) * Measure.dirac (x i) univ)
         = ∑ i, (a i : ℝ≥0∞) by
@@ -327,7 +327,7 @@ theorem le_diracMix_apply (x₀ : Ω) {N : ℕ} (x : Fin N → Ω) (a : Fin N �
       have := Finset.sum_eq_zero_iff.mp hzero i (Finset.mem_univ i)
       exact_mod_cast this
     rw [Finset.sum_eq_zero hall, mul_zero]
-    exact zero_le _
+    exact zero_le
   · rw [diracMix_sum_ne_zero x₀ x a hne]
     have hstep : ∑ i ∈ Finset.univ.filter (fun i => x i ∈ E), (a i : ℝ≥0∞)
         ≤ ∑ i, (a i : ℝ≥0∞) * Measure.dirac (x i) E := by
@@ -338,7 +338,7 @@ theorem le_diracMix_apply (x₀ : Ω) {N : ℕ} (x : Fin N → Ω) (a : Fin N �
             rw [Measure.dirac_apply_of_mem (Finset.mem_filter.mp hi).2, mul_one]
         _ ≤ ∑ i, (a i : ℝ≥0∞) * Measure.dirac (x i) E :=
             Finset.sum_le_sum_of_subset_of_nonneg
-              (Finset.filter_subset _ _) (fun _ _ _ => zero_le _)
+              (Finset.filter_subset _ _) (fun _ _ _ => zero_le)
     have hinv : (m : ℝ≥0∞)⁻¹ ≤ (∑ i, (a i : ℝ≥0∞))⁻¹ := by
       refine ENNReal.inv_le_inv.mpr ?_
       rw [← Nat.cast_sum]
@@ -347,7 +347,7 @@ theorem le_diracMix_apply (x₀ : Ω) {N : ℕ} (x : Fin N → Ω) (a : Fin N �
         ≤ (∑ i, (a i : ℝ≥0∞))⁻¹ * ∑ i, (a i : ℝ≥0∞) * Measure.dirac (x i) E :=
           mul_le_mul' hinv hstep
       _ = ((∑ i, (a i : ℝ≥0∞))⁻¹ • ∑ i, (a i : ℝ≥0∞) • Measure.dirac (x i)) E := by
-          rw [Measure.smul_apply, Measure.coe_finset_sum, Finset.sum_apply]
+          rw [Measure.smul_apply, Measure.coe_finsetSum, Finset.sum_apply]
           simp only [Measure.smul_apply, smul_eq_mul]
 
 omit [MetricSpace Ω] [SeparableSpace Ω] [CompleteSpace Ω] [BorelSpace Ω] in
@@ -549,7 +549,7 @@ theorem exists_diracMix_levyProkhorovDist_le
           · rw [mul_comm]
             refine mul_le_mul' le_rfl ?_
             refine Finset.sum_le_sum_of_subset_of_nonneg ?_
-              (fun _ _ _ => zero_le _)
+              (fun _ _ _ => zero_le)
             intro i hiS
             rw [Finset.mem_filter]
             exact ⟨Finset.mem_univ i, hatoms i hiS⟩
@@ -710,7 +710,7 @@ theorem probabilityMeasure_borel_measurable_apply
       funext γ
       exact measure_iUnion hdisj hfm
     rw [heq]
-    exact Measurable.ennreal_tsum ihf
+    exact Measurable.tsum ihf
 
 omit [SeparableSpace Ω] [CompleteSpace Ω] in
 /-- **W2**: the coercion from probability measures (Borel σ-algebra of the
@@ -738,7 +738,7 @@ noncomputable section
     finite subcollection `T ⊆ S`. -/
 theorem countable_generatePiSystem {α : Type*} {S : Set (Set α)}
     (hS : S.Countable) : (generatePiSystem S).Countable := by
-  refine ((countable_setOf_finite_subset hS).image fun T => ⋂₀ T).mono
+  refine ((countable_ofPred_finite_subset hS).image fun T => ⋂₀ T).mono
     fun t ht => ?_
   induction ht with
   | base h_s =>
@@ -777,7 +777,7 @@ theorem measurableSet_eq_measure {α : Type*} [MeasurableSpace α] {W : Type*}
   have hset : {a | F a = G a} =
       ⋂ s ∈ generatePiSystem (countableBasis W), {a | F a s = G a s} := by
     ext a
-    simp only [mem_setOf_eq, mem_iInter]
+    simp only [mem_ofPred_eq, mem_iInter]
     refine ⟨fun h s _ => by rw [h], fun h => ?_⟩
     haveI := hFfin a
     exact ext_of_generate_finite _ hCgen hCpi h

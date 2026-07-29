@@ -190,7 +190,7 @@ theorem isCompact_probabilityMeasure_marginals (m : Measure A) (n : Measure B) :
           (γ : Measure (A × B)).map Prod.fst = m ∧
           (γ : Measure (A × B)).map Prod.snd = n} = ∅ := by
         ext γ
-        simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+        simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
         intro _ h2
         exact hn (h2 ▸ (γ : Measure (A × B)).isProbabilityMeasure_map
           measurable_snd.aemeasurable)
@@ -200,7 +200,7 @@ theorem isCompact_probabilityMeasure_marginals (m : Measure A) (n : Measure B) :
         (γ : Measure (A × B)).map Prod.fst = m ∧
         (γ : Measure (A × B)).map Prod.snd = n} = ∅ := by
       ext γ
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       intro h1 _
       exact hm (h1 ▸ (γ : Measure (A × B)).isProbabilityMeasure_map
         measurable_fst.aemeasurable)

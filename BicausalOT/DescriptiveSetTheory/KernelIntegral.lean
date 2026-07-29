@@ -60,7 +60,7 @@ theorem MeasureTheory.AnalyticSet.preimage_of_continuous
   · rw [preimage_empty]; exact analyticSet_empty
   have hpre : h ⁻¹' range g = Prod.fst '' {p : W × (ℕ → ℕ) | g p.2 = h p.1} := by
     ext w
-    simp only [mem_preimage, mem_range, mem_image, Prod.exists, mem_setOf_eq]
+    simp only [mem_preimage, mem_range, mem_image, Prod.exists, mem_ofPred_eq]
     constructor
     · rintro ⟨σ, hσ⟩; exact ⟨w, σ, hσ, rfl⟩
     · rintro ⟨w', σ, hgσ, rfl⟩; exact ⟨σ, hgσ⟩
@@ -200,7 +200,7 @@ theorem volume_restrict_epigraph_section (t : ℝ≥0∞) (n : ℕ) :
   · have hinter : {b : ℝ | t ≤ ENNReal.ofReal b} ∩ Icc (0 : ℝ) n
         = Icc t.toReal n := by
       ext b
-      simp only [mem_inter_iff, mem_setOf_eq, mem_Icc]
+      simp only [mem_inter_iff, mem_ofPred_eq, mem_Icc]
       constructor
       · rintro ⟨h1, h2, h3⟩
         exact ⟨(ENNReal.le_ofReal_iff_toReal_le ht h2).mp h1, h3⟩
@@ -236,7 +236,7 @@ theorem IsLowerSemianalytic.analyticSet_le
   have heq : {p : X × Y | f p ≤ q}
       = ⋂ k : ℕ, {p | f p < q + ((k : ℝ≥0∞) + 1)⁻¹} := by
     ext p
-    simp only [mem_setOf_eq, mem_iInter]
+    simp only [mem_ofPred_eq, mem_iInter]
     exact ennreal_le_iff_forall_lt_add_inv hq
   rw [heq]
   exact AnalyticSet.iInter fun k => hf _
@@ -252,7 +252,7 @@ theorem IsLowerSemianalytic.analyticSet_epigraph
               ENNReal.ofReal pb.2 < (Real.toNNReal q : ℝ≥0∞)}ᶜ
             ∪ (Prod.fst ⁻¹' {p : X × Y | f p ≤ (Real.toNNReal q : ℝ≥0∞)})) := by
     ext ⟨p, b⟩
-    simp only [mem_iInter, mem_union, mem_compl_iff, mem_setOf_eq,
+    simp only [mem_iInter, mem_union, mem_compl_iff, mem_ofPred_eq,
       mem_preimage, not_lt]
     constructor
     · intro h q
@@ -385,7 +385,7 @@ theorem lintegral_lowerSemianalytic
     · have heq : {x | a n x < r}
           = {x | (n : ℝ≥0∞) - r < (κ x).prod (lam n) (Prod.mk x ⁻¹' E n)} := by
         ext x
-        rw [mem_setOf_eq, mem_setOf_eq, hval n x]
+        rw [mem_ofPred_eq, mem_ofPred_eq, hval n x]
         constructor
         · intro h
           rw [ENNReal.sub_lt_iff_lt_right
@@ -425,13 +425,13 @@ theorem lintegral_lowerSemianalytic
   have hgoal : {x | (∫⁻ y, f (x, y) ∂(κ x)) < c}
       = {x | (⨆ n : ℕ, a n x) < c} := by
     ext x
-    rw [mem_setOf_eq, mem_setOf_eq, hsup x]
+    rw [mem_ofPred_eq, mem_ofPred_eq, hsup x]
   rw [hgoal]
   have hmain : {x | (⨆ n : ℕ, a n x) < c}
       = ⋃ q : ℚ, {x | (Real.toNNReal q : ℝ≥0∞) < c ∧
           ∀ n : ℕ, a n x ≤ (Real.toNNReal q : ℝ≥0∞)} := by
     ext x
-    simp only [mem_setOf_eq, mem_iUnion]
+    simp only [mem_ofPred_eq, mem_iUnion]
     constructor
     · intro h
       obtain ⟨q, _, h1, h2⟩ := ENNReal.lt_iff_exists_rat_btwn.mp h
@@ -447,7 +447,7 @@ theorem lintegral_lowerSemianalytic
         = ⋂ (n : ℕ) (k : ℕ),
             {x | a n x < (Real.toNNReal q : ℝ≥0∞) + ((k : ℝ≥0∞) + 1)⁻¹} := by
       ext x
-      simp only [mem_setOf_eq, mem_iInter, hqc, true_and]
+      simp only [mem_ofPred_eq, mem_iInter, hqc, true_and]
       constructor
       · intro h n k
         exact (ennreal_le_iff_forall_lt_add_inv (by finiteness)).mp (h n) k

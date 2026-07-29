@@ -53,7 +53,7 @@ theorem measurableSet_feasGraph_fiber_hit_of_measurable
           (fun t y => (κνP t y : Measure (Y (t + 1)))) t} ∩ C n).Nonempty} := by
     rw [hUeq]
     ext h
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion]
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion]
     constructor
     · rintro ⟨γ, hγfib, hγU⟩
       obtain ⟨n, hγn⟩ := Set.mem_iUnion.mp hγU
@@ -97,7 +97,7 @@ theorem measurableSet_feasGraph_fiber_hit_of_measurable
             (γ : Measure ((X (t + 1)) × (Y (t + 1)))).map Prod.snd
               = p.2.toMeasure} := by
     ext h
-    simp only [Set.mem_setOf_eq, Set.mem_preimage]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage]
     constructor
     · rintro ⟨γ, hγfib, hγC⟩
       exact ⟨γ, hγC, hγfib.1, hγfib.2⟩

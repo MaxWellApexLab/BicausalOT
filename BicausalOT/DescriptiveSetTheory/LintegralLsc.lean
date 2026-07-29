@@ -79,7 +79,7 @@ theorem LowerSemicontinuous.lintegral_le_liminf_of_ne_top
       exact isOpen_univ
     · have hpre : {a : W | t < (f a).toReal} = f ⁻¹' Ioi (ENNReal.ofReal t) := by
         ext a
-        simp only [mem_setOf_eq, mem_preimage, mem_Ioi]
+        simp only [mem_ofPred_eq, mem_preimage, mem_Ioi]
         exact (ENNReal.ofReal_lt_iff_lt_toReal ht (hf_ne a)).symm
       rw [hpre]
       exact hf.isOpen_preimage _
